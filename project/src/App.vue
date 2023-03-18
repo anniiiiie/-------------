@@ -1,80 +1,54 @@
 <template>
-  <div id="app">
-    <!-- <h1>Hi! What`s your talant?</h1>
-    <div>Caunt Likes: {{ likes }} </div>
-    <div>Caunt Dislakes: {{ dislikes }} </div>
-    <div>
-      <button class="like" @click=" addLike ">Like</button>
-      <button class="d-like" @click=" dislikes += 1">Dislike</button>
-    </div>
-     -->
-  
-     <div>
-        Create post
-     </div>
-     <div>
-        <input 
-        v-model="title"
-        class="name_post" 
-        placeholder="Name Post">
-     </div>
-     <div>
-        <input 
-        v-model="text"
-        class="in_post" 
-        placeholder="In Post">
-     </div>
-     <div>
-        <button @click="addPost">Add post</button>
-      </div>
+  <div id = "app">
+    <post-form
+      @add="addPost">
+    </post-form>
+
 
     <div>
      <div>Look posts</div>
-     <div v-if="posts.length === 0">NO posts</div>
-     <div class="form" v-for = "(post, index) in posts"
-     :key="index">
-        <p>Name: {{ post.title}}</p>
-        <p>In:{{ post.text}}</p>
-        <div><button @click="deetePost">
-        DELETE
-        </button></div>
-     </div>
-     </div>
+     <post-list
+      :posts="posts">
+     </post-list>
+    </div>
   </div>
 </template>
 
 <script>
+import postList from './components/postList.vue';
+import postForm from './components/postForm.vue';
 
 export default {
   name: 'App',
+  components: { 
+    postList,  postForm,
+    },
   data() {
     return {
       title: '',
-      text:'',
+      body:'',
       posts: [
         {
           id: 1, 
           title: 'jfhkjf_1',
-          text: 'fbhbfbf_1',
+          body: 'fbhbfbf_1',
         }, 
         {
           id:2, 
           title: 'jfhkjf_2',
-          text: 'fbhbfbf_2',
+          body: 'fbhbfbf_2',
         }, 
         
       ]
     };
   },
   methods: {
-    addPost(){
+    addPost(post){
       this.posts.push({
-        title: this.title, 
-        text: this.text, 
-    });
-    this.title = this.text = '';
-    }, 
-    deetePost(index){
+        ...post
+      });
+    },
+    deletePost(index){
       this.posts.splice(index, 1);
     }
   }
